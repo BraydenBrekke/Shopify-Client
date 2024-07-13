@@ -101,7 +101,7 @@ class Shopify:
         except requests.exceptions.RequestException as e:
             print(e)
 
-    def order_has_disabled_product(self, order):
+    def order_has_disabled_product(self, order, disabled_barcodes):
         try:
             disabled_product_found = any(
                 json_item["variant_id"]
@@ -110,7 +110,7 @@ class Shopify:
                     f"https://{self.url}.myshopify.com/admin/api/2024-01/variants/{json_item['variant_id']}.json",  # noqa
                     headers={"X-Shopify-Access-Token": self.token},
                 ).json()["variant"]["barcode"]
-                in self.disabled_barcodes
+                in disabled_barcodes
             )
             return disabled_product_found
         except requests.exceptions.RequestException as e:
