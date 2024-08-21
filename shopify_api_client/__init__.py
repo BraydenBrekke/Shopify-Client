@@ -13,7 +13,7 @@ class Shopify:
         try:
             response = requests.request(
                 "GET",
-                f"https://{self.url}.myshopify.com/admin/api/2023-10/locations.json",
+                f"https://{self.url}.myshopify.com/admin/api/2023-10/locations.json?limit=250",
                 headers={"X-Shopify-Access-Token": self.token},
             )
             return response.json()["locations"]
@@ -156,6 +156,7 @@ class Shopify:
             return item_variant.json()["variant"]
         except requests.exceptions.RequestException as e:
             print(e)
+
 
     def get_order_phone_number(self, order):
         if order["billing_address"]["phone"]:
